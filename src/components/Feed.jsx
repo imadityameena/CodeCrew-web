@@ -1,9 +1,33 @@
-import React from 'react'
+import React, { useEffect } from "react";
+import { BASE_URL } from "../utils/Constants";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { addFeed } from "../utils/FeedSlice";
+import UserCard from "./UserCard";
 
 const Feed = () => {
-  return (
-    <div>Feed</div>
-  )
-}
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const feed = useSelector((store) => store.feed);
 
-export default Feed
+  const getFeed = async () => {
+    if (feed) return;
+    try {
+      const feed = await axios.get(BASE_URL + "/user/feed", {
+        withCredentials: true,
+      });
+
+      dispatch(addFeed(feed.data));
+      console.log(feed);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getFeed();
+  }, []);
+  return feed && feed.map((user) => <UserCard  user={user} />);
+};
+
+export default Feed;

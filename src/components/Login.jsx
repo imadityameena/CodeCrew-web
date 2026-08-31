@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector} from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addUser } from "../utils/userSlice";
 
@@ -10,6 +10,7 @@ const Login = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -26,7 +27,7 @@ const Login = () => {
       {withCredentials : true}
     )
 
-   console.log(res);
+  //  console.log(res);
 
    dispatch(addUser(res.data));
    navigate("/");
@@ -34,6 +35,7 @@ const Login = () => {
       
     } catch (error) {
 
+      setError(error.response.data);
       console.log(error);
       
     }
