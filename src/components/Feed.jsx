@@ -27,7 +27,7 @@ const Feed = () => {
   useEffect(() => {
     getFeed();
   }, []);
-  return feed && feed.map((user) => <UserCard  user={user} />);
+  return feed && feed.map((user) => <UserCard key = {user._id} user={user} />);
 };
 
 export default Feed;
