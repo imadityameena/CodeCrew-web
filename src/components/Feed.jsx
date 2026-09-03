@@ -27,6 +27,14 @@ const Feed = () => {
   useEffect(() => {
     getFeed();
   }, []);
+
+
+  if(!feed) return;
+
+
+  if(feed.length <= 0 ) return <h1 className="flex justify-center m-52 text-3xl">No more users</h1>
+
+  
   return feed && feed.map((user) => <UserCard key = {user._id} user={user} />);
 };
 
